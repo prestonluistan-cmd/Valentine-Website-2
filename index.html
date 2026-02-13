@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Babe 💖 From Dodong</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    overflow:hidden;
+    color:white;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:30px 20px;
+    max-width:500px;
+    margin:auto;
+}
+
+h1{
+    font-size:2rem;
+    margin-bottom:15px;
+}
+
+p{
+    margin-bottom:20px;
+}
+
+.buttons{
+    position:relative;
+    height:80px;
+    margin-top:20px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    font-size:1rem;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.yes{
+    background:#ff2e63;
+    color:white;
+}
+
+.no{
+    background:white;
+    color:#ff2e63;
+    position:absolute;
+}
+
+/* 💖 Floating Hearts */
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:floatUp linear forwards;
+    z-index:0;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    0%{
+        transform:translateY(110vh) scale(0.6);
+        opacity:0;
+    }
+    20%{
+        opacity:0.8;
+    }
+    80%{
+        opacity:0.8;
+    }
+    100%{
+        transform:translateY(-20vh) scale(1);
+        opacity:0;
+    }
+}
+
+/* 📸 Floating Photos */
+.floating-photo{
+    position:absolute;
+    width:130px;
+    border-radius:18px;
+    opacity:0;
+    animation:floatPhoto linear forwards;
+    z-index:0;
+    pointer-events:none;
+}
+
+@keyframes floatPhoto{
+    0%{
+        transform:translateY(110vh) rotate(-8deg) scale(0.9);
+        opacity:0;
+    }
+    15%{
+        opacity:0.45;
+    }
+    85%{
+        opacity:0.45;
+    }
+    100%{
+        transform:translateY(-25vh) rotate(8deg) scale(1);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Hi Babe 💕</h1>
+
+    <p>
+        From your Dodong 🥹💞<br><br>
+        Every moment with you feels magical.<br>
+        Will you be my Valentine, Babe? 💘
+    </p>
+
+    <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes 💖</button>
+        <button class="no" id="noBtn" onclick="moveNo()">No 😜</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+/* 🏃 Moving No Button */
+function moveNo(){
+    const container = document.querySelector(".buttons");
+    const maxX = container.clientWidth - noBtn.offsetWidth;
+    const maxY = container.clientHeight - noBtn.offsetHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+/* 💕 YES CLICK */
+function sayYes(){
+    document.querySelector("h1").innerText = "YAY Babe!!! 💖✨";
+    document.querySelector("p").innerHTML = `
+        Dodong is the happiest man alive right now 🥹💞<br><br>
+        I love you so much Babe 💐💕
+    `;
+    document.querySelector(".buttons").style.display="none";
+}
+
+/* 💖 Floating Hearts Generator */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText="💖";
+    heart.style.left=Math.random()*100+"vw";
+    const duration=Math.random()*6+8;
+    heart.style.animationDuration=duration+"s";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{heart.remove();},duration*1000);
+}
+setInterval(createHeart,1200);
+
+/* 📸 Floating Photos Generator (pic1.jpg to pic31.jpg) */
+const photos=[];
+for(let i=1;i<=31;i++){
+    photos.push(`pic${i}.jpg`);
+}
+
+let activePhotos=0;
+const MAX_PHOTOS=6;
+let lastX=0;
+
+function createPhoto(){
+
+    if(activePhotos>=MAX_PHOTOS) return;
+
+    const img=document.createElement("img");
+    img.src=photos[Math.floor(Math.random()*photos.length)];
+    img.classList.add("floating-photo");
+
+    let x;
+    do{
+        x=Math.random()*90;
+    }while(Math.abs(x-lastX)<15);
+    lastX=x;
+
+    img.style.left=x+"vw";
+
+    const duration=Math.random()*8+14;
+    img.style.animationDuration=duration+"s";
+
+    document.body.appendChild(img);
+    activePhotos++;
+
+    setTimeout(()=>{
+        img.remove();
+        activePhotos--;
+    },duration*1000);
+}
+
+setInterval(createPhoto,3500);
+
+</script>
+
+</body>
+</html>
